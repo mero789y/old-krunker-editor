@@ -1,0 +1,184 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Krunker Editor</title>
+    <link rel='shortcut icon' type="image/png" href="img/favicon.png"/>
+    <link rel="stylesheet" href="./modules/css/editor435f.css?build=ZaHcZ" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=0">
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+</head>
+<body oncontextmenu="return false;">
+
+<!-- CONTAINER -->
+<div id="container"></div>
+<div id="mapModal" class="mapModal">
+  <div class="mapContent">
+    <div class="head">
+      <span class="close">&times;</span>
+      <center>
+      <h2>Enter Map Data</h2>
+      </center>
+    </div>
+    <div class="body">
+    <center>
+      <input type="text" id="textM"><button id="importMap" style="background-color: gold; border: none; border-radius: 5%; color: grey;">Import</button>
+      </center>
+    </div>
+    <div class="footer">
+    </div>
+  </div>
+</div>
+<div id="assetModal" class="mapModal">
+  <div class="assetContent">
+    <div class="head">
+      <span class="close">&times;</span>
+      <center>
+      <h2>Enter Map Data (ONLY ASSET WILL BE IMPORTED)</h2>
+      </center>
+    </div>
+    <div class="bodyE">
+    <center>
+      <input type="text" id="textA"><button id="importAsset" style="background-color: gold; border: none; border-radius: 5%; color: grey;">Import</button>
+      </center>
+    </div>
+    <div class="footer">
+    </div>
+  </div>
+
+</div>
+
+<!-- INFO CONTAINER -->
+<div id="infoContainer">Object Count: <span id="objectCount">0</span></div>
+
+<!-- BOTTOM BAR -->
+<div id="bottomBar">
+
+    <!-- TRANSFORM TYPE -->
+    <div class="bottomPanel">
+        <div id="translateOption" class="bottomButton">Translate</div><div id="rotateOption" class="bottomButton">Rotate</div><div id="scaleOption" class="bottomButton">Scale</div>
+    </div>
+
+    <!-- TRANSFORM SPACE -->
+    <div class="bottomPanel">
+        <div id="worldSpaceOption" class="bottomButton">World</div><div id="localSpaceOption" class="bottomButton">Local</div>
+    </div>
+
+    <!-- OBJECT ACTIONS -->
+    <div class="bottomPanel">
+        <div id="deleteObject" class="bottomButton">Delete Object</div><div id="duplicateObject" class="bottomButton">Duplicate Object</div>
+    </div>
+
+    <!-- MAP ACTIONS -->
+    <div class="bottomPanel">
+        <div id="import" class="bottomButton">Import Map</div><div id="asset" class="bottomButton">Import Asset</div><div id="exportMap" class="bottomButton">Export Map</div><div id="newMap" class="bottomButton">New Map</div>
+    </div>
+
+    <!-- HELP -->
+    <div class="bottomPanel">
+        <div class="bottomButton" onclick="help.classList.toggle('visible')">Help</div>
+    </div>
+
+    <div class="bottomPanel">
+      <input type="text" id="textEe">
+      <div class="bottomButton" id="textTo">Generate Text</div>
+    </div>
+
+</div>
+<div id="help">
+    <div class="blocker" onclick="help.classList.remove('visible')"></div>
+    <div id="helpPanel">
+        <h1>Help</h1>
+        <h2>Keyboard Shortcuts</h2>
+        <div style="float: left;width: 50%;"><h3>Default</h3>
+            <p><b>w/up</b> = fly forward</p>
+            <p><b>s/back</b> = fly backward</p>
+            <p><b>a/left</b> = fly left</p>
+            <p><b>d/right</b> = fly right</p>
+            <p><b>q</b> = fly down</p>
+            <p><b>e</b> = fly up</p>
+            <p><b>shift</b> = hold to fly faster</p>
+            <p><b>1</b> = translate</p>
+            <p><b>2</b> = rotate</p>
+            <p><b>3</b> = scale</p>
+            <p><b>delete/backspace</b> = delete element</p>
+            <p><b>`</b> = toggle world/local space</p>
+            <p><b>control</b> = hold to toggle snapping</p>
+        </div>
+        <div style="float: left;width: 50%;"><h3>Advanced</h3>
+            <p><b>p</b> = create placeholder</p>
+            <p><b>shift f</b> = hitbox fixer</p>
+            <p><b>shift alt g</b> = remove all groups</p>
+            <p><b>shift g</b> = create group / remove group if exist</p>
+            <p><b>shift r</b> = duplicate group/object</p>
+            <p><b>ctrl c</b> = copy group</p>
+            <p><b>ctrl v</b> = paste group</p>
+            <p><b>ctrl z</b> = undo</p>
+            <p><b>ctrl y & shift ctrl z</b> = redo</p>
+            <p><b>shift click import</b> = import from file</p>
+            <p><b>shift click export</b> = export & copy</p>
+            <p><b>shift click (w/ Objectpainter)</b> = paste preset json</p>
+        </div>
+    </div>
+</div>
+
+<!-- LOAD EDITOR SCRIPT -->
+<script>
+// Get the modal
+var modal = document.getElementById("mapModal");
+
+// Get the button that opens the modal
+var btn = document.getElementById("import");
+
+// Get the <span> element that closes the modal
+var span = document.getElementsByClassName("close")[0];
+
+// When the user clicks the button, open the modal 
+btn.onclick = function() {
+  modal.style.display = "block";
+}
+
+// When the user clicks on <span> (x), close the modal
+span.onclick = function() {
+  modal.style.display = "none";
+}
+
+// When the user clicks anywhere outside of the modal, close it
+window.onclick = function(event) {
+  if (event.target == modal) {
+    modal.style.display = "none";
+  }
+}
+// Get the modal
+var modalL = document.getElementById("assetModal");
+
+// Get the button that opens the modal
+var btnn = document.getElementById("asset");
+
+// Get the <span> element that closes the modal
+var spann = document.getElementsByClassName("close")[1];
+
+// When the user clicks the button, open the modal 
+btnn.onclick = function() {
+  modalL.style.display = "block";
+}
+
+// When the user clicks on <span> (x), close the modal
+spann.onclick = function() {
+  modalL.style.display = "none";
+}
+
+// When the user clicks anywhere outside of the modal, close it
+window.onclick = function(event) {
+  if (event.target == modalL) {
+    modalL.style.display = "none";
+  }
+}
+</script>
+<script src="./modules/libs/dat.gui.min.js"></script>
+<script src="./modules/libs/quicksettings.js"></script>
+<script src="./modules/js/editor_v2.js"></script>
+
+</body>
+</html>
